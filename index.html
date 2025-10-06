@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fahad's Testing Site</title>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* n8n Chat Customization */
+        :root {
+            --chat--color-primary: #667eea;
+            --chat--color-primary-shade-50: #5a6fd6;
+            --chat--color-primary-shade-100: #4e60c2;
+            --chat--color-secondary: #764ba2;
+            --chat--color-secondary-shade-50: #6a4391;
+            --chat--color-white: #ffffff;
+            --chat--color-light: #f2f4f8;
+            --chat--color-light-shade-50: #e6e9f1;
+            --chat--color-light-shade-100: #c2c5cc;
+            --chat--color-medium: #d2d4d9;
+            --chat--color-dark: #101330;
+            --chat--color-disabled: #777980;
+            --chat--color-typing: #404040;
+
+            --chat--spacing: 1rem;
+            --chat--border-radius: 0.75rem;
+            --chat--transition-duration: 0.3s;
+
+            --chat--window--width: 400px;
+            --chat--window--height: 600px;
+
+            --chat--header--padding: var(--chat--spacing);
+            --chat--header--background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --chat--header--color: var(--chat--color-white);
+            --chat--header--border-top: none;
+            --chat--header--border-bottom: none;
+
+            --chat--message--font-size: 1rem;
+            --chat--message--padding: var(--chat--spacing);
+            --chat--message--border-radius: 1rem;
+            --chat--message-line-height: 1.6;
+            --chat--message--bot--background: var(--chat--color-white);
+            --chat--message--bot--color: var(--chat--color-dark);
+            --chat--message--bot--border: 1px solid #e6e9f1;
+            --chat--message--user--background: #667eea;
+            --chat--message--user--color: var(--chat--color-white);
+            --chat--message--user--border: none;
+
+            --chat--toggle--background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --chat--toggle--hover--background: #5a6fd6;
+            --chat--toggle--active--background: #4e60c2;
+            --chat--toggle--color: var(--chat--color-white);
+            --chat--toggle--size: 64px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .particle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px 60px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 1400px;
+            width: 90%;
+            position: relative;
+            animation: slideIn 1s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+            }
+        }
+
+        h1 {
+            font-size: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: 700;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 35px;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 25px 20px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .info-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .info-card h3 {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: #777;
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin-top: 35px;
+            font-size: 14px;
+            color: #999;
+            animation: fadeIn 1s ease-out 0.9s both;
+        }
+
+        .wave {
+            display: inline-block;
+            animation: wave 2.5s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(20deg);
+            }
+            75% {
+                transform: rotate(-20deg);
+            }
+        }
+
+        /* Decorative elements */
+        .decoration {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            filter: blur(60px);
+            animation: float-decoration 8s ease-in-out infinite;
+        }
+
+        .decoration-1 {
+            top: -100px;
+            right: -100px;
+        }
+
+        .decoration-2 {
+            bottom: -100px;
+            left: -100px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float-decoration {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(20px, 20px) scale(1.1);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+                margin: 20px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated particles -->
+    <script>
+        // Create floating particles
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            document.body.appendChild(particle);
+        }
+    </script>
+
+    <div class="container">
+        <div class="decoration decoration-1"></div>
+        <div class="decoration decoration-2"></div>
+
+        <div class="badge">⚠️ Testing Environment ⚠️</div>
+        
+        <h1>Fahad's Testing Site</h1>
+        
+        <p class="subtitle">Welcome to the Development & Testing Zone <span class="wave">👋</span></p>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="icon">🔬</div>
+                <h3>Experimental</h3>
+                <p>This site is for testing new features and experiments</p>
+            </div>
+
+            <div class="info-card">
+                <div class="icon">🚀</div>
+                <h3>Development</h3>
+                <p>Active development and testing in progress</p>
+            </div>
+
+            <div class="info-card">
+                <div class="icon">⚡</div>
+                <h3>Innovation</h3>
+                <p>Exploring new ideas and implementations</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Fahad's Testing Environment | Not for Production Use</p>
+            <p style="margin-top: 10px; font-size: 12px;">This is a controlled testing environment for development purposes only</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        createChat({
+            webhookUrl: 'https://brandilyst-ug.app.n8n.cloud/webhook/aacd53aa-4417-4b60-93bc-9f7f527c3d77/chat',
+            mode: 'window',
+            showWelcomeScreen: true,
+            loadPreviousSession: true,
+            initialMessages: [
+                'Hi there! 👋',
+                'Welcome to Fahad\'s Testing Site. How can I assist you today?'
+            ],
+            i18n: {
+                en: {
+                    title: 'Chat with Fahad 💬',
+                    subtitle: 'Testing environment - Feel free to ask anything!',
+                    footer: '',
+                    getStarted: 'New Conversation',
+                    inputPlaceholder: 'Type your message...',
+                },
+            },
+        });
+    </script>
+</body>
+</html>
+
